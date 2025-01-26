@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyC9pPs6BTqWDgU2OX1K7hEfltRUQNmWi24</string>
+	<key>GCM_SENDER_ID</key>
+	<string>305644692861</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.privvy.RunnerTests</string>
+	<key>PROJECT_ID</key>
+	<string>privvy-40333</string>
+	<key>STORAGE_BUCKET</key>
+	<string>privvy-40333.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:305644692861:ios:1972d8e232747b51891814</string>
+</dict>
+</plist>
