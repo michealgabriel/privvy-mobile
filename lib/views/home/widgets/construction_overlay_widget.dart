@@ -16,8 +16,9 @@ class ConstructionOverlayWidget extends StatelessWidget {
           ),
           width: double.infinity,
         ),
-
-        Center(child: Image.asset("assets/images/progress.png", width: 80, height: 80)),
+        Center(
+            child: Image.asset("assets/images/progress.png",
+                width: 80, height: 80)),
       ],
     );
   }

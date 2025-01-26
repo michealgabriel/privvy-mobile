@@ -8,9 +8,10 @@ class ContentLoadingWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        // padding: const EdgeInsets.only(top: 50),
-        child: const CircularProgressIndicator(color: AppThemeConstants.APP_PRIMARY_COLOR,)
-      ),
+          // padding: const EdgeInsets.only(top: 50),
+          child: const CircularProgressIndicator(
+        color: AppThemeConstants.APP_PRIMARY_COLOR,
+      )),
     );
   }
 }

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:privvy/controllers/auth_service.dart';
 import 'package:privvy/controllers/database_service.dart';
@@ -23,10 +22,20 @@ class AvatarSelection extends StatefulWidget {
 }
 
 class _AvatarSelectionState extends State<AvatarSelection> {
-
   String avatarTitle = "AVATAR";
   int? selectedAvatarIndex;
-  final List<String> selectableAvatars = ["charming", "icy", "vibeer", "beanie", "dread", "explorer", "wizz", "collector", "og", "detective"];
+  final List<String> selectableAvatars = [
+    "charming",
+    "icy",
+    "vibeer",
+    "beanie",
+    "dread",
+    "explorer",
+    "wizz",
+    "collector",
+    "og",
+    "detective"
+  ];
   double avatarRadius = Device.screenType == ScreenType.tablet ? 70 : 50;
   double avatarRadius2 = Device.screenType == ScreenType.tablet ? 77 : 47;
 
@@ -37,16 +46,17 @@ class _AvatarSelectionState extends State<AvatarSelection> {
   }
 
   handleContinueTap() async {
-    if(selectedAvatarIndex != null) {
+    if (selectedAvatarIndex != null) {
+      AppSPHandlers().setStringSP(AppSPHandlers.SELECTED_PRIVVY_AVATAR,
+          selectableAvatars[selectedAvatarIndex!]);
+      context
+          .read<ProfileProvider>()
+          .setPrivvyAvatarValue(selectableAvatars[selectedAvatarIndex!]);
 
-      AppSPHandlers().setStringSP(AppSPHandlers.SELECTED_PRIVVY_AVATAR, selectableAvatars[selectedAvatarIndex!]);
-      context.read<ProfileProvider>().setPrivvyAvatarValue(selectableAvatars[selectedAvatarIndex!]);
-      
-      if(widget.isFreshSetup)
-      {
+      if (widget.isFreshSetup) {
         // save to database too
         await handleUserMetadataStoreOperation();
-      }else {
+      } else {
         // update in database also -> and close screen for refresh
         await handleUserMetadataUpdateOperation();
       }
@@ -60,16 +70,19 @@ class _AvatarSelectionState extends State<AvatarSelection> {
     Map<String, dynamic> newRecord = {
       "avatarString": selectableAvatars[selectedAvatarIndex!]
     };
-    String result = await DatabaseService.addRecord(AppConstants.usersMetadataDBCollectionName, newRecord, id: authenticatedUserID);
+    String result = await DatabaseService.addRecord(
+        AppConstants.usersMetadataDBCollectionName, newRecord,
+        id: authenticatedUserID);
 
-    if(mounted) Navigator.pop(context); // close loader
+    if (mounted) Navigator.pop(context); // close loader
 
     if (result == AppConstants.generalSuccessMessageKey) {
       // navigate
-      if(mounted) appNavigate(context, const UsernameSetup(isFreshSetup: true));
-    } 
-    else if (result == AppConstants.serverException) {
-      if(mounted) showAppToast(context, AppConstants.serverException, isError: true);
+      if (mounted)
+        appNavigate(context, const UsernameSetup(isFreshSetup: true));
+    } else if (result == AppConstants.serverException) {
+      if (mounted)
+        showAppToast(context, AppConstants.serverException, isError: true);
     }
   }
 
@@ -80,16 +93,17 @@ class _AvatarSelectionState extends State<AvatarSelection> {
     Map<String, dynamic> updateRecord = {
       "avatarString": selectableAvatars[selectedAvatarIndex!]
     };
-    String result = await DatabaseService.updateRecord(AppConstants.usersMetadataDBCollectionName, updateRecord, documentId: authenticatedUserID);
+    String result = await DatabaseService.updateRecord(
+        AppConstants.usersMetadataDBCollectionName, updateRecord,
+        documentId: authenticatedUserID);
 
-    if(mounted) Navigator.pop(context); // close loader
+    if (mounted) Navigator.pop(context); // close loader
 
-    if (result == AppConstants.generalSuccessMessageKey) 
-    {
-      if(mounted) Navigator.pop(context, 'refresh');
-    } 
-    else if (result == AppConstants.serverException) {
-      if(mounted) showAppToast(context, AppConstants.serverException, isError: true);
+    if (result == AppConstants.generalSuccessMessageKey) {
+      if (mounted) Navigator.pop(context, 'refresh');
+    } else if (result == AppConstants.serverException) {
+      if (mounted)
+        showAppToast(context, AppConstants.serverException, isError: true);
     }
   }
 
@@ -97,30 +111,42 @@ class _AvatarSelectionState extends State<AvatarSelection> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppThemeConstants.APP_BG_DARK,
-
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(Device.screenType == ScreenType.tablet ? 100 : AppThemeConstants().APP_BASE_CONTENT_PADDING),
+        padding: EdgeInsets.all(Device.screenType == ScreenType.tablet
+            ? 100
+            : AppThemeConstants().APP_BASE_CONTENT_PADDING),
         physics: const BouncingScrollPhysics(),
         child: Center(
           child: Column(
             children: [
-              const SizedBox(height: 60,),
-
-              const Text("Choose your Privvy", textAlign: TextAlign.center, style: AppThemeConstants.APP_BODY_TEXT_REGULAR,),
-              Text(avatarTitle, textAlign: TextAlign.center, style: AppThemeConstants.APP_HEADING_TEXT_2,),
-              
-              const SizedBox(height: 25,),
-
+              const SizedBox(
+                height: 60,
+              ),
+              const Text(
+                "Choose your Privvy",
+                textAlign: TextAlign.center,
+                style: AppThemeConstants.APP_BODY_TEXT_REGULAR,
+              ),
+              Text(
+                avatarTitle,
+                textAlign: TextAlign.center,
+                style: AppThemeConstants.APP_HEADING_TEXT_2,
+              ),
+              const SizedBox(
+                height: 25,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _buildSelectableAvatar(selectableAvatars[0], 0, avatarRadius2),
-                  _buildSelectableAvatar(selectableAvatars[1], 1, avatarRadius2),
+                  _buildSelectableAvatar(
+                      selectableAvatars[0], 0, avatarRadius2),
+                  _buildSelectableAvatar(
+                      selectableAvatars[1], 1, avatarRadius2),
                 ],
               ),
-
-              const SizedBox(height: 20,),
-
+              const SizedBox(
+                height: 20,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -129,9 +155,9 @@ class _AvatarSelectionState extends State<AvatarSelection> {
                   _buildSelectableAvatar(selectableAvatars[4], 4, avatarRadius),
                 ],
               ),
-
-              const SizedBox(height: 24,),
-
+              const SizedBox(
+                height: 24,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -140,9 +166,9 @@ class _AvatarSelectionState extends State<AvatarSelection> {
                   _buildSelectableAvatar(selectableAvatars[7], 7, avatarRadius),
                 ],
               ),
-
-              const SizedBox(height: 20,),
-
+              const SizedBox(
+                height: 20,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -150,13 +176,16 @@ class _AvatarSelectionState extends State<AvatarSelection> {
                   _buildSelectableAvatar(selectableAvatars[9], 9, avatarRadius),
                 ],
               ),
-      
-              const SizedBox(height: 50,),
-      
-              AppButtonWide(buttonText: 'CONTINUE', disabled: selectedAvatarIndex == null, callback: () => handleContinueTap()),
-              
-              const SizedBox(height: 120,),
-      
+              const SizedBox(
+                height: 50,
+              ),
+              AppButtonWide(
+                  buttonText: 'CONTINUE',
+                  disabled: selectedAvatarIndex == null,
+                  callback: () => handleContinueTap()),
+              const SizedBox(
+                height: 120,
+              ),
             ],
           ),
         ),
@@ -164,15 +193,16 @@ class _AvatarSelectionState extends State<AvatarSelection> {
     );
   }
 
-  Widget _buildSelectableAvatar(String imageName, int index, double avatarRadius) {
+  Widget _buildSelectableAvatar(
+      String imageName, int index, double avatarRadius) {
     return GestureDetector(
       onTap: () => handleSelectAvatar(index),
       child: Stack(
         children: [
           ProfileImageAvatar(
-            imagePath: "assets/avatars/$imageName.png", 
-            isLocalImage: true, 
-            radius: avatarRadius, 
+            imagePath: "assets/avatars/$imageName.png",
+            isLocalImage: true,
+            radius: avatarRadius,
             paintBackground: selectedAvatarIndex == index,
             imageSize: Device.screenType == ScreenType.tablet ? 140 : 100,
           ),
@@ -185,10 +215,12 @@ class _AvatarSelectionState extends State<AvatarSelection> {
                 width: 24,
                 height: 24,
                 decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white
+                    shape: BoxShape.circle, color: Colors.white),
+                child: const Icon(
+                  Icons.check_circle,
+                  color: Colors.green,
+                  size: 24,
                 ),
-                child: const Icon(Icons.check_circle, color: Colors.green, size: 24,),
               ),
             ),
           ),

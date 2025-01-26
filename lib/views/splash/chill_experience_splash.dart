@@ -14,17 +14,15 @@ class ChillExperienceSplash extends StatefulWidget {
   State<ChillExperienceSplash> createState() => _ChillExperienceSplashState();
 }
 
-
 class _ChillExperienceSplashState extends State<ChillExperienceSplash> {
-
   route() async {
-    bool? hasCompletedOnboard = await AppSPHandlers().getBoolSP(AppSPHandlers.COMPLETED_ONBOARD);
+    bool? hasCompletedOnboard =
+        await AppSPHandlers().getBoolSP(AppSPHandlers.COMPLETED_ONBOARD);
 
-    if(hasCompletedOnboard == true) 
-    {
-      if(mounted) await handleAppInitAutoLogin(context, mounted);
-    }else {
-      if(mounted) Navigator.pushReplacementNamed(context, '/onboard');
+    if (hasCompletedOnboard == true) {
+      if (mounted) await handleAppInitAutoLogin(context, mounted);
+    } else {
+      if (mounted) Navigator.pushReplacementNamed(context, '/onboard');
     }
   }
 
@@ -41,17 +39,15 @@ class _ChillExperienceSplashState extends State<ChillExperienceSplash> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-
             CircleAvatar(
               backgroundColor: AppThemeConstants.APP_PRIMARY_COLOR,
               radius: 100,
-              child: Lottie.asset('assets/lotties/headphone.json', animate: false),
+              child:
+                  Lottie.asset('assets/lotties/headphone.json', animate: false),
             ),
-
-
-            const SizedBox(height: 50,),
-
-
+            const SizedBox(
+              height: 50,
+            ),
             Container(
               alignment: Alignment.center,
               height: 30,
@@ -63,8 +59,10 @@ class _ChillExperienceSplashState extends State<ChillExperienceSplash> {
                   // isRepeatingAnimation: true,
                   totalRepeatCount: 1,
                   animatedTexts: [
-                    FadeAnimatedText('privvy chill experience on', textAlign: TextAlign.center),
-                    FlickerAnimatedText('privvy chill experience on', textAlign: TextAlign.center),
+                    FadeAnimatedText('privvy chill experience on',
+                        textAlign: TextAlign.center),
+                    FlickerAnimatedText('privvy chill experience on',
+                        textAlign: TextAlign.center),
                   ],
                   onFinished: () {
                     route();
@@ -72,25 +70,32 @@ class _ChillExperienceSplashState extends State<ChillExperienceSplash> {
                 ),
               ),
             ),
-
-            const SizedBox(height: 30,),
-
+            const SizedBox(
+              height: 30,
+            ),
             const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Icon(Iconsax.headphones, color: Colors.white,),
-                SizedBox(width: 5,),
-                Text("Recommended", style: AppThemeConstants.APP_BODY_TEXT_REGULAR,),
+                Icon(
+                  Iconsax.headphones,
+                  color: Colors.white,
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Text(
+                  "Recommended",
+                  style: AppThemeConstants.APP_BODY_TEXT_REGULAR,
+                ),
               ],
             ),
-
-            const SizedBox(height: 30,),
-            
+            const SizedBox(
+              height: 30,
+            ),
           ],
         ),
       ),
     );
   }
-  
 }

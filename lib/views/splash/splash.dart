@@ -10,14 +10,12 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-
 class _SplashScreenState extends State<SplashScreen> {
-
   bool showStableText = false;
   bool showFinalSplash = false;
 
   route() {
-    Navigator.pushReplacementNamed(context, '/chill_experience'); 
+    Navigator.pushReplacementNamed(context, '/chill_experience');
   }
 
   startTime() async {
@@ -38,43 +36,46 @@ class _SplashScreenState extends State<SplashScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-
-          showFinalSplash == false ? Container(
-            alignment: Alignment.center,
-            width: 250,
-            child: DefaultTextStyle(
-              style: AppThemeConstants.APP_SPLASH_TEXT,
-              child: showStableText ? const Text('PRIVVY', textAlign: TextAlign.center,) : AnimatedTextKit(
-                repeatForever: false,
-                isRepeatingAnimation: false,
-                totalRepeatCount: 1,
-                animatedTexts: [
-                  FlickerAnimatedText('PRIVVY', textAlign: TextAlign.center),
-                ],
-                onFinished: () {
-                  showStableText = true;
-                  setState(() {});
-                  startTime();
-                },
-              ),
-            ),
-          )
-          :
-          Center(
-            child: Container(
-              color: Colors.transparent,
-              width: 350,
-              constraints: const BoxConstraints(
-                minWidth: 300,
-                maxWidth: 350
-              ),
-              child: Image.asset("assets/images/splash.png", fit: BoxFit.contain,)
-            ),
-          ),
-
+          showFinalSplash == false
+              ? Container(
+                  alignment: Alignment.center,
+                  width: 250,
+                  child: DefaultTextStyle(
+                    style: AppThemeConstants.APP_SPLASH_TEXT,
+                    child: showStableText
+                        ? const Text(
+                            'PRIVVY',
+                            textAlign: TextAlign.center,
+                          )
+                        : AnimatedTextKit(
+                            repeatForever: false,
+                            isRepeatingAnimation: false,
+                            totalRepeatCount: 1,
+                            animatedTexts: [
+                              FlickerAnimatedText('PRIVVY',
+                                  textAlign: TextAlign.center),
+                            ],
+                            onFinished: () {
+                              showStableText = true;
+                              setState(() {});
+                              startTime();
+                            },
+                          ),
+                  ),
+                )
+              : Center(
+                  child: Container(
+                      color: Colors.transparent,
+                      width: 350,
+                      constraints:
+                          const BoxConstraints(minWidth: 300, maxWidth: 350),
+                      child: Image.asset(
+                        "assets/images/splash.png",
+                        fit: BoxFit.contain,
+                      )),
+                ),
         ],
       ),
     );
   }
-  
 }

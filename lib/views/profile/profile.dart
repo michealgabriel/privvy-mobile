@@ -15,24 +15,25 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-
   @override
   Widget build(BuildContext context) {
-
     String userNickname = context.watch<ProfileProvider>().userNicknameValue;
-    String storedChosenAvatar = context.watch<ProfileProvider>().privvyAvatarValue;
+    String storedChosenAvatar =
+        context.watch<ProfileProvider>().privvyAvatarValue;
 
     return Scaffold(
       backgroundColor: AppThemeConstants.APP_BG_DARK,
-  
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(Device.screenType == ScreenType.tablet ? AppThemeConstants().APP_TABLET_BASE_CONTENT_PADDING : AppThemeConstants().APP_BASE_CONTENT_PADDING),
+        padding: EdgeInsets.all(Device.screenType == ScreenType.tablet
+            ? AppThemeConstants().APP_TABLET_BASE_CONTENT_PADDING
+            : AppThemeConstants().APP_BASE_CONTENT_PADDING),
         physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
-            
-            const SizedBox(height: 80,),
-            
+            const SizedBox(
+              height: 80,
+            ),
+
             //Profile View Details
             Animate(
               autoPlay: true,
@@ -42,30 +43,33 @@ class _ProfileState extends State<Profile> {
                 child: Column(
                   children: [
                     ProfileImageAvatar(
-                      imagePath: "assets/avatars/$storedChosenAvatar.png", 
-                      isLocalImage: true, 
-                      radius: Device.screenType == ScreenType.tablet ? 110 : 90, 
-                      imageSize: Device.screenType == ScreenType.tablet ? 230 : 180, 
-                      paintBackground: true
+                        imagePath: "assets/avatars/$storedChosenAvatar.png",
+                        isLocalImage: true,
+                        radius:
+                            Device.screenType == ScreenType.tablet ? 110 : 90,
+                        imageSize:
+                            Device.screenType == ScreenType.tablet ? 230 : 180,
+                        paintBackground: true),
+                    const SizedBox(
+                      height: 20,
                     ),
-
-                    const SizedBox(height: 20,),
-            
-                    Text(userNickname, style: AppThemeConstants.APP_HEADING_TEXT_MEDIUM),
-                    Text(storedChosenAvatar.toUpperCase(), style: AppThemeConstants.APP_BODY_TEXT_MEDIUM),
+                    Text(userNickname,
+                        style: AppThemeConstants.APP_HEADING_TEXT_MEDIUM),
+                    Text(storedChosenAvatar.toUpperCase(),
+                        style: AppThemeConstants.APP_BODY_TEXT_MEDIUM),
                   ],
                 ),
               ),
             ),
-      
-            const SizedBox(height: 60,),
-            
+
+            const SizedBox(
+              height: 60,
+            ),
+
             const ProfileSettingsTiles(),
-        
           ],
         ),
       ),
-      
     );
   }
 }

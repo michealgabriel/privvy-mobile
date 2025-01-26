@@ -6,7 +6,12 @@ class AppButtonWide extends StatelessWidget {
   final bool disabled;
   final VoidCallback callback;
 
-  const AppButtonWide({required this.buttonText, required this.disabled, required this.callback, Key? key}) : super(key: key);
+  const AppButtonWide(
+      {required this.buttonText,
+      required this.disabled,
+      required this.callback,
+      Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,12 +21,16 @@ class AppButtonWide extends StatelessWidget {
       child: ElevatedButton(
         onPressed: disabled ? null : callback,
         style: ElevatedButton.styleFrom(
-          elevation: 0,
-          backgroundColor: AppThemeConstants.APP_PRIMARY_COLOR,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppThemeConstants().APP_BUTTON_WIDE_BORDER_RADIUS))),
-          child: Text(buttonText, style: AppThemeConstants.APP_BUTTON_TEXT_REGULAR,),
+            elevation: 0,
+            backgroundColor: AppThemeConstants.APP_PRIMARY_COLOR,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(
+                    AppThemeConstants().APP_BUTTON_WIDE_BORDER_RADIUS))),
+        child: Text(
+          buttonText,
+          style: AppThemeConstants.APP_BUTTON_TEXT_REGULAR,
+        ),
       ),
     );
-
   }
 }

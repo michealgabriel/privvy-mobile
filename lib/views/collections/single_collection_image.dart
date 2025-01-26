@@ -1,5 +1,3 @@
-
-
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -17,30 +15,31 @@ import 'package:http/http.dart' as http;
 class SingleCollectionImage extends StatefulWidget {
   final String image;
   final String collectionName;
-  const SingleCollectionImage({super.key, required this.image, required this.collectionName});
+  const SingleCollectionImage(
+      {super.key, required this.image, required this.collectionName});
 
   @override
   State<SingleCollectionImage> createState() => _SingleCollectionImageState();
 }
 
 class _SingleCollectionImageState extends State<SingleCollectionImage> {
-
   final constpad = AppThemeConstants().APP_BASE_CONTENT_PADDING;
 
   handleShareImage() async {
     launchPopUp(context, const ContentLoadingWidget(), dismissible: false);
 
     // ! Share Action
-    String urlImageToDeviceFilePath = await saveUrlImage(widget.image, widget.collectionName);
+    String urlImageToDeviceFilePath =
+        await saveUrlImage(widget.image, widget.collectionName);
 
-    Uint8List imageBytes = await loadDeviceImageAsBytes(urlImageToDeviceFilePath);
+    Uint8List imageBytes =
+        await loadDeviceImageAsBytes(urlImageToDeviceFilePath);
 
     ShareFilesAndScreenshotWidgets().shareFile(
-      "Privvy", "${widget.collectionName}.jpg", imageBytes, "image/jpeg",
-      text: "Check out my slick privvy generated shoe 😋"
-    );
+        "Privvy", "${widget.collectionName}.jpg", imageBytes, "image/jpeg",
+        text: "Check out my slick privvy generated shoe 😋");
 
-    if(mounted) Navigator.pop(context);
+    if (mounted) Navigator.pop(context);
   }
 
   Future<String> saveUrlImage(String urlImage, String fileName) async {
@@ -49,7 +48,7 @@ class _SingleCollectionImageState extends State<SingleCollectionImage> {
 
     http.Response response = await http.get(Uri.parse(urlImage));
 
-    if (response.statusCode ==  200) {
+    if (response.statusCode == 200) {
       File file = File('$tempPath/$fileName');
       await file.writeAsBytes(response.bodyBytes);
 
@@ -65,26 +64,38 @@ class _SingleCollectionImageState extends State<SingleCollectionImage> {
     return bytes;
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppThemeConstants.APP_BG_DARK,
-
       appBar: AppBar(
         automaticallyImplyLeading: false,
         elevation: 0,
         backgroundColor: AppThemeConstants.APP_BG_DARK,
-        leading: IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(Iconsax.arrow_left, color: Colors.white, size: 30,)),
+        leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: const Icon(
+              Iconsax.arrow_left,
+              color: Colors.white,
+              size: 30,
+            )),
         actions: [
-          IconButton(onPressed: () => handleShareImage(), icon: const Icon(Icons.share_outlined, color: Colors.white, size: 28,)),
-          const SizedBox(width: 10,)
+          IconButton(
+              onPressed: () => handleShareImage(),
+              icon: const Icon(
+                Icons.share_outlined,
+                color: Colors.white,
+                size: 28,
+              )),
+          const SizedBox(
+            width: 10,
+          )
         ],
       ),
-
       body: Center(
-        child: CachedNetworkImage(imageUrl: widget.image,)
-      ),
+          child: CachedNetworkImage(
+        imageUrl: widget.image,
+      )),
     );
   }
 }

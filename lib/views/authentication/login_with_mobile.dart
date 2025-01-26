@@ -18,35 +18,32 @@ class LoginWithMobile extends StatefulWidget {
 }
 
 class _LoginWithMobileState extends State<LoginWithMobile> {
-
   final _formKey = GlobalKey<FormState>();
   final _mobileFocus = FocusNode();
   String userPhoneNumber = "";
 
   handleMobileLogin() async {
-    if(_formKey.currentState!.validate()) {
+    if (_formKey.currentState!.validate()) {
       _mobileFocus.unfocus();
 
       launchPopUp(context, const ContentLoadingWidget(), dismissible: false);
 
       await AuthService.sendOtp(
-        phone: userPhoneNumber, 
-        errorStep: () {
-          Navigator.pop(context);
-          showAppToast(context, AppConstants.invalidPhoneNumber, isError: true);
-        },
-        // timeoutStep: () {
-        //   print("timeoutStep:");
-        //   Navigator.pop(context);
-        //   showAppToast(context, AppConstants.otpTimeout, isError: true);
-        // },
-        nextStep: () {
-          Navigator.pop(context);
-          appNavigate(context, const LoginMobileOTP());
-        }
-      );
-
-      
+          phone: userPhoneNumber,
+          errorStep: () {
+            Navigator.pop(context);
+            showAppToast(context, AppConstants.invalidPhoneNumber,
+                isError: true);
+          },
+          // timeoutStep: () {
+          //   print("timeoutStep:");
+          //   Navigator.pop(context);
+          //   showAppToast(context, AppConstants.otpTimeout, isError: true);
+          // },
+          nextStep: () {
+            Navigator.pop(context);
+            appNavigate(context, const LoginMobileOTP());
+          });
     }
   }
 
@@ -58,26 +55,32 @@ class _LoginWithMobileState extends State<LoginWithMobile> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppThemeConstants.APP_BG_DARK,
-
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(Device.screenType == ScreenType.tablet ? AppThemeConstants().APP_TABLET_BASE_CONTENT_PADDING : AppThemeConstants().APP_BASE_CONTENT_PADDING),
+        padding: EdgeInsets.all(Device.screenType == ScreenType.tablet
+            ? AppThemeConstants().APP_TABLET_BASE_CONTENT_PADDING
+            : AppThemeConstants().APP_BASE_CONTENT_PADDING),
         physics: const BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
-            const SizedBox(height: 50,),
-      
+            const SizedBox(
+              height: 50,
+            ),
             Container(
               padding: const EdgeInsets.symmetric(vertical: 80),
               child: const Align(
                 alignment: Alignment.center,
-                child: Text("Mobile Authentication", style: AppThemeConstants.APP_HEADING_TEXT_MEDIUM,),
+                child: Text(
+                  "Mobile Authentication",
+                  style: AppThemeConstants.APP_HEADING_TEXT_MEDIUM,
+                ),
               ),
             ),
-      
-            const Text('Phone number', style: AppThemeConstants.APP_BODY_TEXT_REGULAR),
-            const SizedBox(height: 8,),
+            const Text('Phone number',
+                style: AppThemeConstants.APP_BODY_TEXT_REGULAR),
+            const SizedBox(
+              height: 8,
+            ),
             Form(
               key: _formKey,
               child: IntlPhoneField(
@@ -90,37 +93,40 @@ class _LoginWithMobileState extends State<LoginWithMobile> {
                 style: AppThemeConstants.APP_BODY_TEXT_REGULAR,
                 dropdownTextStyle: AppThemeConstants.APP_BODY_TEXT_REGULAR,
                 pickerDialogStyle: PickerDialogStyle(
-                  backgroundColor: AppThemeConstants.APP_CARD_BG_DARK,
-                  countryNameStyle: AppThemeConstants.APP_BODY_TEXT_SMALL,
-                  countryCodeStyle: AppThemeConstants.APP_BODY_TEXT_SMALL_DIM,
-                  searchFieldInputDecoration: InputDecoration(
-                    border: AppThemeConstants.APP_TEXTFIELD_OUTLINE_BORDER,
-                    focusedBorder: AppThemeConstants.APP_TEXTFIELD_FOCUSED_BORDER,
-                    fillColor: Colors.white,
-                    filled: true,
-                    isDense: true,
-                    hintStyle: AppThemeConstants.APP_BODY_TEXT_MEDIUM_DIM,
-                    hintText: "Search Country",
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15)
-                  )
-                ),
+                    backgroundColor: AppThemeConstants.APP_CARD_BG_DARK,
+                    countryNameStyle: AppThemeConstants.APP_BODY_TEXT_SMALL,
+                    countryCodeStyle: AppThemeConstants.APP_BODY_TEXT_SMALL_DIM,
+                    searchFieldInputDecoration: InputDecoration(
+                        border: AppThemeConstants.APP_TEXTFIELD_OUTLINE_BORDER,
+                        focusedBorder:
+                            AppThemeConstants.APP_TEXTFIELD_FOCUSED_BORDER,
+                        fillColor: Colors.white,
+                        filled: true,
+                        isDense: true,
+                        hintStyle: AppThemeConstants.APP_BODY_TEXT_MEDIUM_DIM,
+                        hintText: "Search Country",
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 15, vertical: 15))),
                 initialCountryCode: 'NG',
                 onChanged: (phone) => setUserPhoneNumber(phone.completeNumber),
                 validator: (value) {
-                  if(value!.number.length < 8) {
+                  if (value!.number.length < 8) {
                     return AppConstants.invalidPhoneNumber;
                   }
                   return null;
                 },
               ),
             ),
-                  
-            const SizedBox(height: 40,),
-        
-            AppButtonWide(buttonText: 'CONTINUE', disabled: false, callback: () => handleMobileLogin()),
-            
-            const SizedBox(height: 120,),
-
+            const SizedBox(
+              height: 40,
+            ),
+            AppButtonWide(
+                buttonText: 'CONTINUE',
+                disabled: false,
+                callback: () => handleMobileLogin()),
+            const SizedBox(
+              height: 120,
+            ),
           ],
         ),
       ),

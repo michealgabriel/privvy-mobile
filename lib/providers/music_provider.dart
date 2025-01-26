@@ -1,16 +1,13 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
 class MusicProvider extends ChangeNotifier {
-  
   final player = AudioPlayer();
 
   final playlist = ConcatenatingAudioSource(
     useLazyPreparation: true,
     shuffleOrder: DefaultShuffleOrder(),
-    children: [   
+    children: [
       // Specify the playlist items ...
       AudioSource.asset('assets/musics/deadopsmin.mp3'),
       AudioSource.asset('assets/musics/domin.mp3'),
@@ -32,32 +29,27 @@ class MusicProvider extends ChangeNotifier {
     ["mthumb5.jpg", "XTC", "K-SEE"],
   ];
 
-
   void initializeMusics({required double initVolume}) {
     // ! init musics ......
     // Load and play the playlist
-    player.setAudioSource(playlist, initialIndex: 0, initialPosition: Duration.zero);
-    player.setLoopMode(LoopMode.all);        // Set playlist to loop (off|all|one)
-    player.setShuffleModeEnabled(true); 
+    player.setAudioSource(playlist,
+        initialIndex: 0, initialPosition: Duration.zero);
+    player.setLoopMode(LoopMode.all); // Set playlist to loop (off|all|one)
+    player.setShuffleModeEnabled(true);
     player.setVolume(initVolume);
     player.shuffle();
-    // player.play();
-    
-    // notifyListeners();
   }
 
   void pauseOrPlayMusic() {
     player.playing ? player.pause() : player.play();
-    // notifyListeners();
   }
 
   void updateMusicVolume(double value) {
-    if(value > 1) {
+    if (value > 1) {
       player.setVolume(1);
       return;
     }
 
     player.setVolume(value);
-    // notifyListeners();
   }
 }

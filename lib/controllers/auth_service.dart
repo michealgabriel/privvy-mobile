@@ -9,15 +9,21 @@ class AuthService {
   static String verifyId = "";
 
   // ! Send otp to user
-  static Future sendOtp({required String phone, required Function errorStep, required Function nextStep, Function? timeoutStep}) async {
-    await _firebaseAuth.verifyPhoneNumber(
+  static Future sendOtp(
+      {required String phone,
+      required Function errorStep,
+      required Function nextStep,
+      Function? timeoutStep}) async {
+    await _firebaseAuth
+        .verifyPhoneNumber(
       timeout: const Duration(seconds: 30),
       phoneNumber: phone,
       verificationCompleted: (phoneAuthCredential) async {
         return;
       },
       verificationFailed: (error) async {
-        AppLogger().log(Level.warning, "AuthService.sendOtp (verificationFailed) ERROR: ${error.toString()}");
+        AppLogger().log(Level.warning,
+            "AuthService.sendOtp (verificationFailed) ERROR: ${error.toString()}");
         errorStep();
         return;
       },
@@ -30,15 +36,17 @@ class AuthService {
         return;
       },
     )
-    .onError((error, stackTrace) {
-      AppLogger().log(Level.warning, "AuthService.sendOtp (onError): ${error.toString()}");
+        .onError((error, stackTrace) {
+      AppLogger().log(
+          Level.warning, "AuthService.sendOtp (onError): ${error.toString()}");
       errorStep();
     });
   }
 
   // ! Verify the otp code and login
   static Future loginWithOtp({required String otp}) async {
-    final cred = PhoneAuthProvider.credential(verificationId: verifyId, smsCode: otp);
+    final cred =
+        PhoneAuthProvider.credential(verificationId: verifyId, smsCode: otp);
 
     try {
       final user = await _firebaseAuth.signInWithCredential(cred);
@@ -48,22 +56,22 @@ class AuthService {
       } else {
         return AppConstants.otpFailedMessageKey;
       }
-    } 
-    on FirebaseAuthException catch (e) {
-      AppLogger().log(Level.warning, "AuthService.signInWithCredential (FirebaseAuthException) ERROR: ${e.toString()}");
+    } on FirebaseAuthException catch (e) {
+      AppLogger().log(Level.warning,
+          "AuthService.signInWithCredential (FirebaseAuthException) ERROR: ${e.toString()}");
       return AppConstants.otpFailedMessageKey;
-    } 
-    catch (e) {
-      AppLogger().log(Level.warning, "AuthService.signInWithCredential ERROR: ${e.toString()}");
+    } catch (e) {
+      AppLogger().log(Level.warning,
+          "AuthService.signInWithCredential ERROR: ${e.toString()}");
       return AppConstants.serverException;
     }
   }
-  
+
   // ! Authenticate with google X apple
   static Future loginWithProvider({required bool isGoogle}) async {
-
     try {
-      final user = await _firebaseAuth.signInWithProvider(isGoogle ? GoogleAuthProvider() : AppleAuthProvider());
+      final user = await _firebaseAuth.signInWithProvider(
+          isGoogle ? GoogleAuthProvider() : AppleAuthProvider());
       AppLogger().log(Level.info, "AUTHENTICATED USER OBJ: $user");
 
       if (user.user != null) {
@@ -71,13 +79,13 @@ class AuthService {
       } else {
         return AppConstants.oauthFailedMessageKey;
       }
-    } 
-    on FirebaseAuthException catch (e) {
-      AppLogger().log(Level.warning, "AuthService.signInWithProvider (FirebaseAuthException) ERROR: ${e.toString()}");
+    } on FirebaseAuthException catch (e) {
+      AppLogger().log(Level.warning,
+          "AuthService.signInWithProvider (FirebaseAuthException) ERROR: ${e.toString()}");
       return AppConstants.oauthFailedMessageKey;
-    } 
-    catch (e) {
-      AppLogger().log(Level.warning, "AuthService.signInWithProvider ERROR: ${e.toString()}");
+    } catch (e) {
+      AppLogger().log(Level.warning,
+          "AuthService.signInWithProvider ERROR: ${e.toString()}");
       return AppConstants.serverException;
     }
   }
@@ -98,5 +106,4 @@ class AuthService {
     var user = _firebaseAuth.currentUser;
     return user!.uid;
   }
-
 }

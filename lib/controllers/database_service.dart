@@ -1,13 +1,13 @@
-
 import 'package:firebase_database/firebase_database.dart';
 import 'package:logger/logger.dart';
 import 'package:privvy/utils/app_logger.dart';
 import 'package:privvy/utils/app_constants.dart';
 
 class DatabaseService {
-
   // ! Add data to db
-  static Future<String> addRecord(String targetCollection, Map<String, dynamic> addData, {String? id}) async {
+  static Future<String> addRecord(
+      String targetCollection, Map<String, dynamic> addData,
+      {String? id}) async {
     final databaseReference = FirebaseDatabase.instance.ref(targetCollection);
 
     try {
@@ -16,45 +16,50 @@ class DatabaseService {
       await databaseReference.child(id ?? autoID).set(addData);
 
       return AppConstants.generalSuccessMessageKey;
-    }
-    catch (e) {
-      AppLogger().log(Level.warning, "DatabaseService.addRecord ERROR: ${e.toString()}");
+    } catch (e) {
+      AppLogger().log(
+          Level.warning, "DatabaseService.addRecord ERROR: ${e.toString()}");
       return AppConstants.serverException;
     }
   }
 
   // ! Update data in db
-  static Future<String> updateRecord(String targetCollection, Map<String, dynamic> updateData, {String? documentId}) async {
+  static Future<String> updateRecord(
+      String targetCollection, Map<String, dynamic> updateData,
+      {String? documentId}) async {
     final databaseReference = FirebaseDatabase.instance.ref(targetCollection);
 
     try {
-      if(documentId != null) {
+      if (documentId != null) {
         await databaseReference.child(documentId).update(updateData);
-      }else {
+      } else {
         await databaseReference.update(updateData);
       }
 
       return AppConstants.generalSuccessMessageKey;
-    }
-    catch (e) {
-      AppLogger().log(Level.warning, "DatabaseService.updateRecord ERROR: ${e.toString()}");
+    } catch (e) {
+      AppLogger().log(
+          Level.warning, "DatabaseService.updateRecord ERROR: ${e.toString()}");
       return AppConstants.serverException;
     }
   }
 
   // ! Read single data from db
-  static Future<dynamic> readSingleRecord(String targetCollection, String documentId) async {
+  static Future<dynamic> readSingleRecord(
+      String targetCollection, String documentId) async {
     final databaseReference = FirebaseDatabase.instance.ref(targetCollection);
 
     try {
-      final data = await databaseReference.child(documentId).once(DatabaseEventType.value);
+      final data = await databaseReference
+          .child(documentId)
+          .once(DatabaseEventType.value);
 
-      if(data.snapshot.exists) return data.snapshot.value;
+      if (data.snapshot.exists) return data.snapshot.value;
 
       return AppConstants.noDatabaseResults;
-    }
-    catch (e) {
-      AppLogger().log(Level.warning, "DatabaseService.readSingleRecord ERROR: ${e.toString()}");
+    } catch (e) {
+      AppLogger().log(Level.warning,
+          "DatabaseService.readSingleRecord ERROR: ${e.toString()}");
       return AppConstants.serverException;
     }
   }
@@ -66,9 +71,9 @@ class DatabaseService {
     try {
       final data = await databaseReference.once(DatabaseEventType.value);
 
-      if(data.snapshot.exists) {
+      if (data.snapshot.exists) {
         Map<String, dynamic> valueAsMap = {};
-        
+
         (data.snapshot.value as Map).forEach((key, value) {
           valueAsMap[key.toString()] = value;
         });
@@ -77,26 +82,29 @@ class DatabaseService {
       }
 
       return AppConstants.noDatabaseResults;
-    }
-    catch (e) {
-      AppLogger().log(Level.warning, "DatabaseService.readTargetMultiRecord ERROR: ${e.toString()}");
+    } catch (e) {
+      AppLogger().log(Level.warning,
+          "DatabaseService.readTargetMultiRecord ERROR: ${e.toString()}");
       return AppConstants.serverException;
     }
   }
 
   // ! Delete record from db
-  static Future<String> deleteRecord(String targetCollection, String recordKeyOrId) async {
+  static Future<String> deleteRecord(
+      String targetCollection, String recordKeyOrId) async {
     final databaseReference = FirebaseDatabase.instance.ref();
 
     try {
-      await databaseReference.child(targetCollection).child(recordKeyOrId).remove();
+      await databaseReference
+          .child(targetCollection)
+          .child(recordKeyOrId)
+          .remove();
 
       return AppConstants.generalSuccessMessageKey;
-    }
-    catch (e) {
-      AppLogger().log(Level.warning, "DatabaseService.deleteRecord ERROR: ${e.toString()}");
+    } catch (e) {
+      AppLogger().log(
+          Level.warning, "DatabaseService.deleteRecord ERROR: ${e.toString()}");
       return AppConstants.serverException;
     }
   }
-
 }

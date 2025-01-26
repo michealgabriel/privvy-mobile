@@ -7,7 +7,13 @@ class AppButtonStandard extends StatelessWidget {
   final VoidCallback callback;
   final bool alternateStyling;
 
-  const AppButtonStandard({ Key? key, required this.buttonText, required this.callback, required this.disabled, this.alternateStyling = false}) : super(key: key);
+  const AppButtonStandard(
+      {Key? key,
+      required this.buttonText,
+      required this.callback,
+      required this.disabled,
+      this.alternateStyling = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +23,20 @@ class AppButtonStandard extends StatelessWidget {
       child: ElevatedButton(
         onPressed: disabled ? null : callback,
         style: ElevatedButton.styleFrom(
-          elevation: 0,
-          backgroundColor: alternateStyling ? Colors.white : AppThemeConstants.APP_PRIMARY_COLOR,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppThemeConstants().APP_BUTTON_STANDARD_BORDER_RADIUS))),
-          child: Text(buttonText, style: alternateStyling ? AppThemeConstants.APP_BUTTON_TEXT_REGULAR_ALTERNATE : AppThemeConstants.APP_BUTTON_TEXT_REGULAR,),
+            elevation: 0,
+            backgroundColor: alternateStyling
+                ? Colors.white
+                : AppThemeConstants.APP_PRIMARY_COLOR,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(
+                    AppThemeConstants().APP_BUTTON_STANDARD_BORDER_RADIUS))),
+        child: Text(
+          buttonText,
+          style: alternateStyling
+              ? AppThemeConstants.APP_BUTTON_TEXT_REGULAR_ALTERNATE
+              : AppThemeConstants.APP_BUTTON_TEXT_REGULAR,
+        ),
       ),
     );
-
   }
 }

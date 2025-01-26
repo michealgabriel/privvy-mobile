@@ -1,4 +1,3 @@
- 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
@@ -15,25 +14,25 @@ class ApiService {
     baseUrl = dotenv.env['SERVER_URL'].toString();
   }
 
-  Future<GenerationResponseModel> callGenerateVariationsApi(String autoID, String imageName) async {
+  Future<GenerationResponseModel> callGenerateVariationsApi(
+      String autoID, String imageName) async {
     try {
       String authUID = await AuthService.getLoggedInUserID();
 
       final response = await http.post(
-        Uri.parse("$baseUrl/generateColorVariations"),
-        headers: {
-          // 'authorization': 'Bearer ${dotenv.env['GCLOUD_TOKEN']}',
-          'content-type': 'application/json',
-          'accept': 'application/json',
-        },
-        body: jsonEncode({
-          "uid": authUID,
-          "auto_id": autoID,
-          "target_path": "$authUID/$autoID/$imageName"
-        })
-      );
+          Uri.parse("$baseUrl/generateColorVariations"),
+          headers: {
+            'content-type': 'application/json',
+            'accept': 'application/json',
+          },
+          body: jsonEncode({
+            "uid": authUID,
+            "auto_id": autoID,
+            "target_path": "$authUID/$autoID/$imageName"
+          }));
 
-      AppLogger().log(Level.warning, "Response status code: ${response.statusCode}");
+      AppLogger()
+          .log(Level.warning, "Response status code: ${response.statusCode}");
       AppLogger().log(Level.warning, "Response body: ${response.body}");
 
       final jsonResponse = jsonDecode(response.body);
@@ -47,24 +46,22 @@ class ApiService {
     try {
       String authUID = await AuthService.getLoggedInUserID();
 
-      final response = await http.delete(
-        Uri.parse("$baseUrl/deleteVariations"),
-        headers: {
-          // 'authorization': 'Bearer ${dotenv.env['GCLOUD_TOKEN']}',
-          'content-type': 'application/json',
-          'accept': 'application/json',
-        },
-        body: jsonEncode({
-          "uid": authUID,
-          "auto_id": autoID,
-          "target_path": "$authUID/$autoID/"
-        })
-      );
+      final response = await http.delete(Uri.parse("$baseUrl/deleteVariations"),
+          headers: {
+            'content-type': 'application/json',
+            'accept': 'application/json',
+          },
+          body: jsonEncode({
+            "uid": authUID,
+            "auto_id": autoID,
+            "target_path": "$authUID/$autoID/"
+          }));
 
-      AppLogger().log(Level.warning, "Response status code: ${response.statusCode}");
+      AppLogger()
+          .log(Level.warning, "Response status code: ${response.statusCode}");
       AppLogger().log(Level.warning, "Response body: ${response.body}");
 
-      if(response.statusCode == 200) {
+      if (response.statusCode == 200) {
         return true;
       }
 
@@ -73,5 +70,4 @@ class ApiService {
       throw Exception(AppConstants.serverException);
     }
   }
-
 }

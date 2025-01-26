@@ -1,4 +1,3 @@
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,26 +16,31 @@ import 'package:privvy/views/splash/splash.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  
+
   await dotenv.load(fileName: ".env");
-  
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).whenComplete(() {
-    runApp(MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => MusicProvider(),),
-        ChangeNotifierProvider(create: (_) => ProfileProvider(),),
-        ChangeNotifierProvider(create: (_) => PrivvyGenerationProvider(),),
-        ChangeNotifierProvider(create: (_) => TimerCountdownProvider(),),
-      ],
-      child: const MyApp())
-    );
+
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .whenComplete(() {
+    runApp(MultiProvider(providers: [
+      ChangeNotifierProvider(
+        create: (_) => MusicProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (_) => ProfileProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (_) => PrivvyGenerationProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (_) => TimerCountdownProvider(),
+      ),
+    ], child: const MyApp()));
   });
 }
 
@@ -46,26 +50,24 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ResponsiveSizer(
-      builder: (context, orientation, screenType) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: AppConstants.appTitle,
-          themeMode: ThemeMode.dark,
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: AppThemeConstants.APP_PRIMARY_COLOR),
-            useMaterial3: true,
-          ),
-          initialRoute: '/splash',
-          routes: {
-            '/splash': (context) => const SplashScreen(),
-            '/chill_experience': (context) => const ChillExperienceSplash(),
-            '/onboard': (context) => const OnBoarding(),
-            '/login': (context) => const Login(),
-          },
-        );
-      }
-    );
+    return ResponsiveSizer(builder: (context, orientation, screenType) {
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: AppConstants.appTitle,
+        themeMode: ThemeMode.dark,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(
+              seedColor: AppThemeConstants.APP_PRIMARY_COLOR),
+          useMaterial3: true,
+        ),
+        initialRoute: '/splash',
+        routes: {
+          '/splash': (context) => const SplashScreen(),
+          '/chill_experience': (context) => const ChillExperienceSplash(),
+          '/onboard': (context) => const OnBoarding(),
+          '/login': (context) => const Login(),
+        },
+      );
+    });
   }
-
 }

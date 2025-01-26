@@ -1,12 +1,14 @@
-
-
 class GenerationResponseModel {
   final String message;
   final List<String> colors;
   final List<String> images;
   final List<String> imageUrls;
 
-  GenerationResponseModel({required this.message, required this.colors, required this.images, required this.imageUrls});
+  GenerationResponseModel(
+      {required this.message,
+      required this.colors,
+      required this.images,
+      required this.imageUrls});
 
   factory GenerationResponseModel.fromJson(Map<String, dynamic> json) {
     return GenerationResponseModel(

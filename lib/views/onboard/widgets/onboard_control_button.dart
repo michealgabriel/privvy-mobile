@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class OnBoardControlButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback callback;
-  const OnBoardControlButton({super.key, required this.icon, required this.callback});
+  const OnBoardControlButton(
+      {super.key, required this.icon, required this.callback});
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +18,12 @@ class OnBoardControlButton extends StatelessWidget {
             width: 65,
             height: 65,
             decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.black
+                shape: BoxShape.circle, color: Colors.black),
+            child: Icon(
+              icon,
+              color: Colors.white,
+              size: 22,
             ),
-            child: Icon(icon, color: Colors.white, size: 22,),
           ),
         ),
       ),
