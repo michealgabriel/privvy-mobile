@@ -21,6 +21,7 @@
     - [Code Style](#code-style)
     - [Running Tests](#running-tests)
     - [Versioning](#versioning)
+    - [Image Generation Backend Repo](#image-generation-backend-repo)
     - [License](#license)
 
 ## Introduction
@@ -116,7 +117,7 @@ privvy/
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! Please feel free to submit a Pull Request. Please see our [CONTRIBUTING.md](CONTRIBUTING.md) for more details.
 
 ### Setting Up Development Environment
 
@@ -139,6 +140,10 @@ flutter test
 ### Versioning
 
 We use [SemVer](http://semver.org/) for versioning. For more information on commit messages and guidelines, please read [CONTRIBUTING.md](CONTRIBUTING.md).
+
+### Image Generation Backend Repo
+You can also give the image generation backend repo a visit and see if you can help out with any issues or feature requests.
+https://github.com/michealgabriel/privvy-nodejs-prod
 
 ### License
 
